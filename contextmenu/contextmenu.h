@@ -24,69 +24,71 @@ class IMenu; /* forward declaration */
   {0xbe8df6fd, 0x11ed, 0x40a0, \
     { 0xbc, 0x78, 0xad, 0xa9, 0xe2, 0xca, 0xf6, 0xd7 }}
 
-class NS_NO_VTABLE IMenuItem : public nsISupports {
+class NS_NO_VTABLE NS_SCRIPTABLE IMenuItem : public nsISupports {
  public: 
 
-  NS_DEFINE_STATIC_IID_ACCESSOR(IMENUITEM_IID)
+  NS_DECLARE_STATIC_IID_ACCESSOR(IMENUITEM_IID)
 
   /* readonly attribute AString caption; */
-  NS_IMETHOD GetCaption(nsAString & aCaption) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetCaption(nsAString & aCaption) = 0;
 
   /* readonly attribute wchar accessKey; */
-  NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey) = 0;
 
   /* readonly attribute boolean isSeparator; */
-  NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator) = 0;
 
   /* readonly attribute boolean isDefault; */
-  NS_IMETHOD GetIsDefault(PRBool *aIsDefault) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetIsDefault(PRBool *aIsDefault) = 0;
 
   /* readonly attribute boolean isDisabled; */
-  NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled) = 0;
 
   /* readonly attribute boolean hasSubMenu; */
-  NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu) = 0;
 
   /* readonly attribute IMenu subMenu; */
-  NS_IMETHOD GetSubMenu(IMenu * *aSubMenu) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetSubMenu(IMenu **aSubMenu) = 0;
 
   /* readonly attribute unsigned long idCmd; */
-  NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd) = 0;
 
 };
 
+  NS_DEFINE_STATIC_IID_ACCESSOR(IMenuItem, IMENUITEM_IID)
+
 /* Use this macro when declaring classes that implement this interface. */
 #define NS_DECL_IMENUITEM \
-  NS_IMETHOD GetCaption(nsAString & aCaption); \
-  NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey); \
-  NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator); \
-  NS_IMETHOD GetIsDefault(PRBool *aIsDefault); \
-  NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled); \
-  NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu); \
-  NS_IMETHOD GetSubMenu(IMenu * *aSubMenu); \
-  NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd); 
+  NS_SCRIPTABLE NS_IMETHOD GetCaption(nsAString & aCaption); \
+  NS_SCRIPTABLE NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey); \
+  NS_SCRIPTABLE NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator); \
+  NS_SCRIPTABLE NS_IMETHOD GetIsDefault(PRBool *aIsDefault); \
+  NS_SCRIPTABLE NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled); \
+  NS_SCRIPTABLE NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu); \
+  NS_SCRIPTABLE NS_IMETHOD GetSubMenu(IMenu **aSubMenu); \
+  NS_SCRIPTABLE NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd); 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object. */
 #define NS_FORWARD_IMENUITEM(_to) \
-  NS_IMETHOD GetCaption(nsAString & aCaption) { return _to GetCaption(aCaption); } \
-  NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey) { return _to GetAccessKey(aAccessKey); } \
-  NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator) { return _to GetIsSeparator(aIsSeparator); } \
-  NS_IMETHOD GetIsDefault(PRBool *aIsDefault) { return _to GetIsDefault(aIsDefault); } \
-  NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled) { return _to GetIsDisabled(aIsDisabled); } \
-  NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu) { return _to GetHasSubMenu(aHasSubMenu); } \
-  NS_IMETHOD GetSubMenu(IMenu * *aSubMenu) { return _to GetSubMenu(aSubMenu); } \
-  NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd) { return _to GetIdCmd(aIdCmd); } 
+  NS_SCRIPTABLE NS_IMETHOD GetCaption(nsAString & aCaption) { return _to GetCaption(aCaption); } \
+  NS_SCRIPTABLE NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey) { return _to GetAccessKey(aAccessKey); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator) { return _to GetIsSeparator(aIsSeparator); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIsDefault(PRBool *aIsDefault) { return _to GetIsDefault(aIsDefault); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled) { return _to GetIsDisabled(aIsDisabled); } \
+  NS_SCRIPTABLE NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu) { return _to GetHasSubMenu(aHasSubMenu); } \
+  NS_SCRIPTABLE NS_IMETHOD GetSubMenu(IMenu **aSubMenu) { return _to GetSubMenu(aSubMenu); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd) { return _to GetIdCmd(aIdCmd); } 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
 #define NS_FORWARD_SAFE_IMENUITEM(_to) \
-  NS_IMETHOD GetCaption(nsAString & aCaption) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetCaption(aCaption); } \
-  NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetAccessKey(aAccessKey); } \
-  NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIsSeparator(aIsSeparator); } \
-  NS_IMETHOD GetIsDefault(PRBool *aIsDefault) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIsDefault(aIsDefault); } \
-  NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIsDisabled(aIsDisabled); } \
-  NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetHasSubMenu(aHasSubMenu); } \
-  NS_IMETHOD GetSubMenu(IMenu * *aSubMenu) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetSubMenu(aSubMenu); } \
-  NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIdCmd(aIdCmd); } 
+  NS_SCRIPTABLE NS_IMETHOD GetCaption(nsAString & aCaption) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetCaption(aCaption); } \
+  NS_SCRIPTABLE NS_IMETHOD GetAccessKey(PRUnichar *aAccessKey) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetAccessKey(aAccessKey); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIsSeparator(PRBool *aIsSeparator) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIsSeparator(aIsSeparator); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIsDefault(PRBool *aIsDefault) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIsDefault(aIsDefault); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIsDisabled(PRBool *aIsDisabled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIsDisabled(aIsDisabled); } \
+  NS_SCRIPTABLE NS_IMETHOD GetHasSubMenu(PRBool *aHasSubMenu) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetHasSubMenu(aHasSubMenu); } \
+  NS_SCRIPTABLE NS_IMETHOD GetSubMenu(IMenu **aSubMenu) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetSubMenu(aSubMenu); } \
+  NS_SCRIPTABLE NS_IMETHOD GetIdCmd(PRUint32 *aIdCmd) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetIdCmd(aIdCmd); } 
 
 #if 0
 /* Use the code below as a template for the implementation class for this interface. */
@@ -157,7 +159,7 @@ NS_IMETHODIMP _MYCLASS_::GetHasSubMenu(PRBool *aHasSubMenu)
 }
 
 /* readonly attribute IMenu subMenu; */
-NS_IMETHODIMP _MYCLASS_::GetSubMenu(IMenu * *aSubMenu)
+NS_IMETHODIMP _MYCLASS_::GetSubMenu(IMenu **aSubMenu)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
@@ -179,33 +181,35 @@ NS_IMETHODIMP _MYCLASS_::GetIdCmd(PRUint32 *aIdCmd)
   {0xd3405a37, 0x500f, 0x4242, \
     { 0x8b, 0xfd, 0xe6, 0x83, 0x3c, 0x17, 0x43, 0x1b }}
 
-class NS_NO_VTABLE IMenu : public nsISupports {
+class NS_NO_VTABLE NS_SCRIPTABLE IMenu : public nsISupports {
  public: 
 
-  NS_DEFINE_STATIC_IID_ACCESSOR(IMENU_IID)
+  NS_DECLARE_STATIC_IID_ACCESSOR(IMENU_IID)
 
   /* readonly attribute unsigned long itemCount; */
-  NS_IMETHOD GetItemCount(PRUint32 *aItemCount) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetItemCount(PRUint32 *aItemCount) = 0;
 
   /* IMenuItem getMenuItem (in unsigned long idx); */
-  NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval NS_OUTPARAM) = 0;
 
 };
 
+  NS_DEFINE_STATIC_IID_ACCESSOR(IMenu, IMENU_IID)
+
 /* Use this macro when declaring classes that implement this interface. */
 #define NS_DECL_IMENU \
-  NS_IMETHOD GetItemCount(PRUint32 *aItemCount); \
-  NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval); 
+  NS_SCRIPTABLE NS_IMETHOD GetItemCount(PRUint32 *aItemCount); \
+  NS_SCRIPTABLE NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval NS_OUTPARAM); 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object. */
 #define NS_FORWARD_IMENU(_to) \
-  NS_IMETHOD GetItemCount(PRUint32 *aItemCount) { return _to GetItemCount(aItemCount); } \
-  NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval) { return _to GetMenuItem(idx, _retval); } 
+  NS_SCRIPTABLE NS_IMETHOD GetItemCount(PRUint32 *aItemCount) { return _to GetItemCount(aItemCount); } \
+  NS_SCRIPTABLE NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval NS_OUTPARAM) { return _to GetMenuItem(idx, _retval); } 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
 #define NS_FORWARD_SAFE_IMENU(_to) \
-  NS_IMETHOD GetItemCount(PRUint32 *aItemCount) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetItemCount(aItemCount); } \
-  NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetMenuItem(idx, _retval); } 
+  NS_SCRIPTABLE NS_IMETHOD GetItemCount(PRUint32 *aItemCount) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetItemCount(aItemCount); } \
+  NS_SCRIPTABLE NS_IMETHOD GetMenuItem(PRUint32 idx, IMenuItem **_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetMenuItem(idx, _retval); } 
 
 #if 0
 /* Use the code below as a template for the implementation class for this interface. */
@@ -246,7 +250,7 @@ NS_IMETHODIMP _MYCLASS_::GetItemCount(PRUint32 *aItemCount)
 }
 
 /* IMenuItem getMenuItem (in unsigned long idx); */
-NS_IMETHODIMP _MYCLASS_::GetMenuItem(PRUint32 idx, IMenuItem **_retval)
+NS_IMETHODIMP _MYCLASS_::GetMenuItem(PRUint32 idx, IMenuItem **_retval NS_OUTPARAM)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
@@ -262,33 +266,35 @@ NS_IMETHODIMP _MYCLASS_::GetMenuItem(PRUint32 idx, IMenuItem **_retval)
   {0x53e0031a, 0xec32, 0x4994, \
     { 0x96, 0xae, 0xf2, 0xd0, 0xff, 0xaf, 0x61, 0x2c }}
 
-class NS_NO_VTABLE ICtxMenu : public nsISupports {
+class NS_NO_VTABLE NS_SCRIPTABLE ICtxMenu : public nsISupports {
  public: 
 
-  NS_DEFINE_STATIC_IID_ACCESSOR(ICTXMENU_IID)
+  NS_DECLARE_STATIC_IID_ACCESSOR(ICTXMENU_IID)
 
   /* readonly attribute IMenu menu; */
-  NS_IMETHOD GetMenu(IMenu * *aMenu) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetMenu(IMenu **aMenu) = 0;
 
   /* boolean invokeCommand (in unsigned long idCmd); */
-  NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval) = 0;
+  NS_SCRIPTABLE NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval NS_OUTPARAM) = 0;
 
 };
 
+  NS_DEFINE_STATIC_IID_ACCESSOR(ICtxMenu, ICTXMENU_IID)
+
 /* Use this macro when declaring classes that implement this interface. */
 #define NS_DECL_ICTXMENU \
-  NS_IMETHOD GetMenu(IMenu * *aMenu); \
-  NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval); 
+  NS_SCRIPTABLE NS_IMETHOD GetMenu(IMenu **aMenu); \
+  NS_SCRIPTABLE NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval NS_OUTPARAM); 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object. */
 #define NS_FORWARD_ICTXMENU(_to) \
-  NS_IMETHOD GetMenu(IMenu * *aMenu) { return _to GetMenu(aMenu); } \
-  NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval) { return _to InvokeCommand(idCmd, _retval); } 
+  NS_SCRIPTABLE NS_IMETHOD GetMenu(IMenu **aMenu) { return _to GetMenu(aMenu); } \
+  NS_SCRIPTABLE NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval NS_OUTPARAM) { return _to InvokeCommand(idCmd, _retval); } 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
 #define NS_FORWARD_SAFE_ICTXMENU(_to) \
-  NS_IMETHOD GetMenu(IMenu * *aMenu) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetMenu(aMenu); } \
-  NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->InvokeCommand(idCmd, _retval); } 
+  NS_SCRIPTABLE NS_IMETHOD GetMenu(IMenu **aMenu) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetMenu(aMenu); } \
+  NS_SCRIPTABLE NS_IMETHOD InvokeCommand(PRUint32 idCmd, PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->InvokeCommand(idCmd, _retval); } 
 
 #if 0
 /* Use the code below as a template for the implementation class for this interface. */
@@ -323,13 +329,13 @@ _MYCLASS_::~_MYCLASS_()
 }
 
 /* readonly attribute IMenu menu; */
-NS_IMETHODIMP _MYCLASS_::GetMenu(IMenu * *aMenu)
+NS_IMETHODIMP _MYCLASS_::GetMenu(IMenu **aMenu)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
 /* boolean invokeCommand (in unsigned long idCmd); */
-NS_IMETHODIMP _MYCLASS_::InvokeCommand(PRUint32 idCmd, PRBool *_retval)
+NS_IMETHODIMP _MYCLASS_::InvokeCommand(PRUint32 idCmd, PRBool *_retval NS_OUTPARAM)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
@@ -345,27 +351,29 @@ NS_IMETHODIMP _MYCLASS_::InvokeCommand(PRUint32 idCmd, PRBool *_retval)
   {0x735ff095, 0xe0b1, 0x49b6, \
     { 0x85, 0xbb, 0x2d, 0x24, 0x6e, 0x50, 0xcd, 0xca }}
 
-class NS_NO_VTABLE IContextMenuHelper : public nsISupports {
+class NS_NO_VTABLE NS_SCRIPTABLE IContextMenuHelper : public nsISupports {
  public: 
 
-  NS_DEFINE_STATIC_IID_ACCESSOR(ICONTEXTMENUHELPER_IID)
+  NS_DECLARE_STATIC_IID_ACCESSOR(ICONTEXTMENUHELPER_IID)
 
   /* ICtxMenu getContextMenuForFile (in wstring filename); */
-  NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval) = 0;
+  NS_SCRIPTABLE NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval NS_OUTPARAM) = 0;
 
 };
 
+  NS_DEFINE_STATIC_IID_ACCESSOR(IContextMenuHelper, ICONTEXTMENUHELPER_IID)
+
 /* Use this macro when declaring classes that implement this interface. */
 #define NS_DECL_ICONTEXTMENUHELPER \
-  NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval); 
+  NS_SCRIPTABLE NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval NS_OUTPARAM); 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object. */
 #define NS_FORWARD_ICONTEXTMENUHELPER(_to) \
-  NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval) { return _to GetContextMenuForFile(filename, _retval); } 
+  NS_SCRIPTABLE NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval NS_OUTPARAM) { return _to GetContextMenuForFile(filename, _retval); } 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
 #define NS_FORWARD_SAFE_ICONTEXTMENUHELPER(_to) \
-  NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetContextMenuForFile(filename, _retval); } 
+  NS_SCRIPTABLE NS_IMETHOD GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetContextMenuForFile(filename, _retval); } 
 
 #if 0
 /* Use the code below as a template for the implementation class for this interface. */
@@ -400,7 +408,7 @@ _MYCLASS_::~_MYCLASS_()
 }
 
 /* ICtxMenu getContextMenuForFile (in wstring filename); */
-NS_IMETHODIMP _MYCLASS_::GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval)
+NS_IMETHODIMP _MYCLASS_::GetContextMenuForFile(const PRUnichar *filename, ICtxMenu **_retval NS_OUTPARAM)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }

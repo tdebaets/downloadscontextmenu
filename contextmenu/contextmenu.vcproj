@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\Gecko SDK\include&quot;"
-				PreprocessorDefinitions="“XP_WIN;XP_WIN32"
+				PreprocessorDefinitions="XP_WIN;XP_WIN32;MOZ_NO_MOZALLOC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="nspr4.lib xpcom.lib xpcomglue_s.lib shlwapi.lib"
+				AdditionalDependencies="nspr4.lib xpcom.lib xpcomglue_s_nomozalloc.lib shlwapi.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\Gecko SDK\lib&quot;"
 				IgnoreDefaultLibraryNames="MSVCRT.lib"
@@ -121,7 +121,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\..\Gecko SDK\include&quot;"
-				PreprocessorDefinitions="“XP_WIN;XP_WIN32"
+				PreprocessorDefinitions="XP_WIN;XP_WIN32;MOZ_NO_MOZALLOC"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -139,7 +139,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="nspr4.lib xpcom.lib xpcomglue_s.lib shlwapi.lib"
+				AdditionalDependencies="nspr4.lib xpcom.lib xpcomglue_s_nomozalloc.lib shlwapi.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\..\Gecko SDK\lib&quot;"
 				IgnoreDefaultLibraryNames="MSVCRT.lib"
