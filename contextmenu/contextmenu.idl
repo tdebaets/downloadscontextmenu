@@ -1,0 +1,36 @@
+#include "nsISupports.idl"
+
+interface IMenu;
+
+[scriptable, uuid(BE8DF6FD-11ED-40a0-BC78-ADA9E2CAF6D7)]
+interface IMenuItem : nsISupports
+{
+  readonly attribute AString caption;
+  readonly attribute wchar accessKey;
+  readonly attribute boolean isSeparator;
+  readonly attribute boolean isDefault;
+  readonly attribute boolean isDisabled;
+  readonly attribute boolean hasSubMenu;
+  readonly attribute IMenu subMenu;
+  readonly attribute unsigned long idCmd;
+};
+
+[scriptable, uuid(D3405A37-500F-4242-8BFD-E6833C17431B)]
+interface IMenu : nsISupports
+{
+  readonly attribute unsigned long itemCount;
+  IMenuItem getMenuItem(in unsigned long idx);
+};
+
+[scriptable, uuid(53E0031A-EC32-4994-96AE-F2D0FFAF612C)]
+interface ICtxMenu : nsISupports
+{
+  readonly attribute IMenu menu;
+  boolean invokeCommand(in unsigned long idCmd);
+};
+
+[scriptable, uuid(735FF095-E0B1-49b6-85BB-2D246E50CDCA)]
+interface IContextMenuHelper : nsISupports
+{
+  ICtxMenu getContextMenuForFile(in wstring filename);
+};

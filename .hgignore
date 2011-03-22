@@ -1,0 +1,7 @@
+glob:components/*
+glob:contextmenu/Debug/*
+glob:contextmenu/Release/*
+glob:*.ncb
+glob:*.vcproj.*
+glob:contextmenu/contextmenu.zip
+glob:Thumbs.db

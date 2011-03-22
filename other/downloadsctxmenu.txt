@@ -1,0 +1,2 @@
+This extension will allow you to access the Explorer context (right click) menu of finished downloads directly from within Firefox. Just right click a finished download and a new item will be added that shows the context menu of the downloaded file.
+Note: because of a technical limitation, some items in the context menu will not be shown. This includes the Copy To-menu on Windows 2000 and XP. However, the extension does show the Copy To-menu on Windows Vista.
