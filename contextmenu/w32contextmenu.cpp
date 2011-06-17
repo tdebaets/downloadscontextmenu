@@ -235,7 +235,7 @@ DWORD MsgSleep(DWORD Time)
     return CurTickCount - StartTickCount;
 }
 
-// never wait for than 1 sec
+// never wait for more than 1 sec
 #define MAX_WAIT_TIME 1000
 
 void waitForAsyncItems()

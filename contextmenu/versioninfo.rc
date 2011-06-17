@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,3,0,0
- PRODUCTVERSION 1,3,0,0
+ FILEVERSION 1,4,0,0
+ PRODUCTVERSION 1,4,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -72,12 +72,12 @@ BEGIN
             VALUE "Comments", "Written by Tim De Baets - info@bm-productions.tk"
             VALUE "CompanyName", "BM-productions"
             VALUE "FileDescription", "Downloads Context Menu support DLL"
-            VALUE "FileVersion", "1.3"
+            VALUE "FileVersion", "1.4"
             VALUE "InternalName", "ContextMenu"
             VALUE "LegalCopyright", "Copyright © 2011 BM-productions - All rights reserved"
             VALUE "OriginalFilename", "contextmenu.dll"
             VALUE "ProductName", "Downloads Context Menu"
-            VALUE "ProductVersion", "1.3"
+            VALUE "ProductVersion", "1.4"
         END
     END
     BLOCK "VarFileInfo"

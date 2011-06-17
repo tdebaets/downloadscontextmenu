@@ -5,3 +5,4 @@ glob:*.ncb
 glob:*.vcproj.*
 glob:contextmenu/contextmenu.zip
 glob:Thumbs.db
+glob:*.suo
