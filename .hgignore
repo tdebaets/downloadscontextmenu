@@ -1,6 +1,6 @@
 glob:components/*
-glob:contextmenu/Debug/*
-glob:contextmenu/Release/*
+glob:*/Debug/*
+glob:*/Release/*
 glob:*.ncb
 glob:*.vcproj.*
 glob:contextmenu/contextmenu.zip
