@@ -73,7 +73,7 @@ CContextMenuWin32::CContextMenuWin32()
 
 CContextMenuWin32::~CContextMenuWin32()
 {
-    OutputDebugString(L"CW32ContextMenu destructor");
+    //OutputDebugString(L"CW32ContextMenu destructor");
     if (mhMenu)
         DestroyMenu(mhMenu);
     if (mICtxMenu)
@@ -204,11 +204,7 @@ CMMenu* CContextMenuWin32::walkMenu(HMENU hmenu, int level)
     }
 }
 
-//CMMenu* CContextMenuWin32::convertToCMMenu()
-//{
-//    return walkMenu(mhMenu, 1);
-//}
-
+// TODO: base this on the SleepMsg function at http://blogs.msdn.com/b/oldnewthing/archive/2006/01/26/517849.aspx
 DWORD MsgSleep(DWORD Time)
 {
     const DWORD TimerGranularity = 100;

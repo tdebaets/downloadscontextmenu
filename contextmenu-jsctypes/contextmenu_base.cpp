@@ -10,7 +10,7 @@ CContextMenu::CContextMenu()
 
 CContextMenu::~CContextMenu()
 {
-    //OutputDebugStringA("destructor"); // TODO: remove
+    //OutputDebugStringA("destructor");
     if (contextMenu->menu)
         freeMenu(contextMenu->menu);
     delete contextMenu;

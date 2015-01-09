@@ -1,4 +1,4 @@
-use js-ctypes instead of xpcom - http://stackoverflow.com/questions/6175608/reference-a-binary-component-to-js-ctypes-firefox-addon
+test in PaleMoon
 show for multiple files
 thunderbird support (downloaded files)
 show vista/7 menu icons - data URI? (http://en.wikipedia.org/wiki/Data_URI_scheme)

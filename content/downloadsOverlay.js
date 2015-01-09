@@ -54,11 +54,12 @@ var downloadsctxmenu = {
     AddonManager.getAddonByID("downloadscontextmenu@bmproductions",
         function(addon) { downloadsctxmenu.addonCallback(addon); } );
     // get our contextmenu popup (see downloadsOverlay.xul)
-    var contextMenu = document.getElementById("downloadContextMenu");
-    if (contextMenu)
+    var contextMenu = document.getElementById("downloadsContextMenu");
+    if (contextMenu) {
       contextMenu.addEventListener("popupshowing",
           function(e) { downloadsctxmenu.onDownloadContextMenuPopup(e); },
           false);
+    }
   },
   
   addonCallback: function(addon) {
@@ -92,9 +93,9 @@ var downloadsctxmenu = {
       this._contextMenuLib.close();
   },
 
-   onDownloadContextMenuPopup: function(event) {
-    var popup = document.getElementById("downloadContextMenu");
-    //without this *simple* guard here, life can be very very frustrating...
+  onDownloadContextMenuPopup: function(event) {
+    var popup = document.getElementById("downloadsContextMenu");
+    // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
       var file = this.getSelectedFile();
       if (file && this._contextMenuLib) {
@@ -137,7 +138,7 @@ var downloadsctxmenu = {
   
   onContextMenuPopup: function(event) {
     var popup = document.getElementById("downloadscontextmenupopup");
-    //without this *simple* guard here, life can be very very frustrating...
+    // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
       // remove all previous items
       while (popup.hasChildNodes())
@@ -149,9 +150,10 @@ var downloadsctxmenu = {
       var cmCtxMenu = this._CMGetContextMenuForFile(file.path);
       if (cmCtxMenu.isNull() || cmCtxMenu.contents.menu.isNull())
         return false;
-      else
+      else {
         // fill popup with the items of the returned CMContextMenu struct
         this.fillPopupWithIMenu(popup, cmCtxMenu.contents.menu.contents, cmCtxMenu);
+      }
     }
     // we need to stop propagation, because buildContextMenu in downloads.js
     // returns false for any id other than "downloadContextMenu".
@@ -187,8 +189,9 @@ var downloadsctxmenu = {
   onContextMenuItemCommand: function(event) {
     var target = event.target;
     if (target.parentNode.downloadsCtxMenu && target.cmMenuItem) {
-      // invoke the command by calling ICtxMenu of the item's parent menu and
-      // providing the idCmd of the item
+      // invoke the command by calling CMContextMenuCommand and providing the
+      // CMContextMenu struct of the item's parent menu together with the
+      // CMMenuItem struct of the item
       this._CMContextMenuCommand(target.parentNode.downloadsCtxMenu,
           target.cmMenuItem.address());
     }

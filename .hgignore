@@ -6,3 +6,5 @@ glob:*.vcproj.*
 glob:contextmenu/contextmenu.zip
 glob:Thumbs.db
 glob:*.suo
+syntax: glob
+*.aps
