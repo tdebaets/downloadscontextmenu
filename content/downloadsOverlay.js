@@ -53,8 +53,8 @@ var downloadsctxmenu = {
     Components.utils.import("resource://gre/modules/AddonManager.jsm");
     AddonManager.getAddonByID("downloadscontextmenu@bmproductions",
         function(addon) { downloadsctxmenu.addonCallback(addon); } );
-    // get our contextmenu popup (see downloadsOverlay.xul)
-    var contextMenu = document.getElementById("downloadsContextMenu");
+    // get FF's contextmenu popup
+    var contextMenu = document.getElementById("downloadContextMenu");
     if (contextMenu) {
       contextMenu.addEventListener("popupshowing",
           function(e) { downloadsctxmenu.onDownloadContextMenuPopup(e); },
@@ -94,7 +94,7 @@ var downloadsctxmenu = {
   },
 
   onDownloadContextMenuPopup: function(event) {
-    var popup = document.getElementById("downloadsContextMenu");
+    var popup = document.getElementById("downloadContextMenu");
     // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
       var file = this.getSelectedFile();
