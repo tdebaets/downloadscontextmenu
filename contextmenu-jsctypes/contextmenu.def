@@ -1,0 +1,5 @@
+LIBRARY	"contextmenu"
+EXPORTS
+	CMGetContextMenuForFile
+	CMContextMenuCommand
+	CMFreeContextMenu

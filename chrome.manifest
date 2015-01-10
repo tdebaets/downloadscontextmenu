@@ -1,0 +1,2 @@
+content	downloadscontextmenu	content/
+overlay chrome://mozapps/content/downloads/downloads.xul  chrome://downloadscontextmenu/content/downloadsOverlay.xul

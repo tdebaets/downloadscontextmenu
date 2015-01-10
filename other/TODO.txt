@@ -1,0 +1,5 @@
+test in PaleMoon
+show for multiple files
+thunderbird support (downloaded files)
+show vista/7 menu icons - data URI? (http://en.wikipedia.org/wiki/Data_URI_scheme)
+better architecture? - http://www.softwareishard.com/blog/planet-mozilla/firefox-extensions-global-namespace-pollution/
