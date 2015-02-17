@@ -7,12 +7,12 @@
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="downloadsOverlay.js"/>
   
-  <vbox id="contextMenuPalette">
+  <stack hidden="true">
 		<!--
     <menu id="downloadscontextmenuItem" label="&fileMenu.label;"
           accesskey="&fileMenu.accesskey;"/>
 		-->
 		<menu id="downloadscontextmenuItem" label="&fileMenu.label;"/>
-  </vbox>
+  </stack>
 
 </overlay>

@@ -1,2 +1,7 @@
 content	downloadscontextmenu	content/
 overlay chrome://mozapps/content/downloads/downloads.xul  chrome://downloadscontextmenu/content/downloadsOverlay.xul
+# Firefox 26+
+overlay chrome://browser/content/downloads/contentAreaDownloadsView.xul chrome://downloadscontextmenu/content/downloadsOverlay.xul
+overlay chrome://browser/content/places/places.xul chrome://downloadscontextmenu/content/downloadsOverlay.xul
+overlay about:downloads chrome://downloadscontextmenu/content/downloadsOverlay.xul
+overlay chrome://browser/content/browser.xul chrome://downloadscontextmenu/content/downloadsOverlay.xul

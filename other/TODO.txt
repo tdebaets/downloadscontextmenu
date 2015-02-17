@@ -1,3 +1,4 @@
+support Downloads button in main window?
 test in PaleMoon
 show for multiple files
 thunderbird support (downloaded files)

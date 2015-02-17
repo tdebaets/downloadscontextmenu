@@ -1,7 +1,14 @@
 
+// TODO: test after clear
 
+var Cu = Components.utils;
 var Cc = Components.classes;
 var Ci = Components.interfaces;
+
+Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+
+XPCOMUtils.defineLazyModuleGetter(this, "FileUtils",
+                                  "resource://gre/modules/FileUtils.jsm");
 
 window.addEventListener("load", function(e) { downloadsctxmenu.onLoad(e); },
   false);
@@ -20,6 +27,12 @@ var downloadsctxmenu = {
   _CMGetContextMenuForFile: null,
   _CMContextMenuCommand: null,
   _CMFreeContextMenu: null,
+  
+  _CMDownloadContextMenuID: document.getElementById("downloadContextMenu") ?
+      'downloadContextMenu' : 'downloadsContextMenu',
+  // TODO: better way?
+  _CMMenuItemID : "downloadscontextmenuitem@bmproductions", // should be unique!
+  _CMPopupMenuID : "downloadscontextmenupopup@bmproductions", // should be unique!
   
   declareContextMenuStructs: function() {
   
@@ -54,7 +67,7 @@ var downloadsctxmenu = {
     AddonManager.getAddonByID("downloadscontextmenu@bmproductions",
         function(addon) { downloadsctxmenu.addonCallback(addon); } );
     // get FF's contextmenu popup
-    var contextMenu = document.getElementById("downloadContextMenu");
+    var contextMenu = document.getElementById(this._CMDownloadContextMenuID);
     if (contextMenu) {
       contextMenu.addEventListener("popupshowing",
           function(e) { downloadsctxmenu.onDownloadContextMenuPopup(e); },
@@ -94,9 +107,13 @@ var downloadsctxmenu = {
   },
 
   onDownloadContextMenuPopup: function(event) {
-    var popup = document.getElementById("downloadContextMenu");
+    var popup = document.getElementById(this._CMDownloadContextMenuID);
     // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
+      var oldMenu = document.getElementById(this._CMMenuItemID);
+      if (oldMenu) {
+        oldMenu.parentNode.removeChild(oldMenu);
+      }
       var file = this.getSelectedFile();
       if (file && this._contextMenuLib) {
         this.insertMenuItem(popup, !file.exists());
@@ -111,10 +128,19 @@ var downloadsctxmenu = {
     for (var i = 0; i < childNodes.length; i++) {
       var child = childNodes[i];
       var id = child.getAttribute("id");
+      // pre-FF26: insert our menu after Show, and only if Open has been found
+      // too
       if (id == "menuitem_open")
+      {
         menuItemOpen = child;
-      // insert our menu after Show, and only if Open has been found too
+      }
       else if (id == "menuitem_show" && menuItemOpen) {
+        var menu = this.createMenu(disabled);
+        popup.insertBefore(menu, child.nextSibling);
+        break;
+      }
+      // FF26+: no more Open menu item, so just insert our menu after Show
+      else if (child.className == 'downloadShowMenuItem') {
         var menu = this.createMenu(disabled);
         popup.insertBefore(menu, child.nextSibling);
         break;
@@ -125,9 +151,10 @@ var downloadsctxmenu = {
   createMenu: function(disabled) {
     var menu =
       document.getElementById("downloadscontextmenuItem").cloneNode(true);
+    menu.id = this._CMMenuItemID;
     menu.setAttribute("disabled", disabled);
     var popup = document.createElement("menupopup");
-    popup.id = "downloadscontextmenupopup";
+    popup.id = this._CMPopupMenuID;
     popup.setAttribute("onpopupshowing",
       "return downloadsctxmenu.onContextMenuPopup(event);");
     popup.setAttribute("onpopuphiding",
@@ -137,7 +164,7 @@ var downloadsctxmenu = {
   },
   
   onContextMenuPopup: function(event) {
-    var popup = document.getElementById("downloadscontextmenupopup");
+    var popup = document.getElementById(this._CMPopupMenuID);
     // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
       // remove all previous items
@@ -177,7 +204,7 @@ var downloadsctxmenu = {
   onContextMenuHide: function(event) {
     var popup = event.target;
     // only free if the main popup is hidden (this listener also gets called for submenus)
-    if ( (popup.id == "downloadscontextmenupopup") && popup.downloadsCtxMenu)
+    if ( (popup.id == this._CMPopupMenuID) && popup.downloadsCtxMenu)
     {
       // free the CMContextMenu struct returned by CMGetContextMenuForFile
       this._CMFreeContextMenu(popup.downloadsCtxMenu);
@@ -245,14 +272,35 @@ var downloadsctxmenu = {
   getDownloadsView: function() {
     // get the downloads view, don't save in a variable because it changes
     // when the download list is cleared
-    return document.getElementById("downloadView");
+    var view;
+    // pre-FF26
+    view = document.getElementById("downloadContextMenu");
+    if (!view) {
+      // FF26+
+      view = document.getElementById('downloadsRichListBox');
+    }
+    return view;
   },
   
   getSelectedFile: function() {
     // get the currently selected file in the Downloads view
-    var dl = this.getDownloadsView().selectedItem;
-    if (dl)
-      return getLocalFileFromNativePathOrUrl(dl.getAttribute("file"));
+    var selectedItem = this.getDownloadsView().selectedItem;
+    if (!selectedItem)
+      return null;
+      
+    var filePath = selectedItem.getAttribute("file");
+    if (filePath) {
+      // TODO: newer function?
+      return getLocalFileFromNativePathOrUrl(filePath);
+    }
+    else {
+      // FF26+, based on onDragStart() in allDownloadsViewOverlay.js
+      var metaData = selectedItem._shell.getDownloadMetaData();
+      if (!("filePath" in metaData))
+        return null;
+       
+      return new FileUtils.File(metaData.filePath);
+    }
   },
   
 };
