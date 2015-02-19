@@ -1,6 +1,4 @@
 
-// TODO: test after clear
-
 var Cu = Components.utils;
 var Cc = Components.classes;
 var Ci = Components.interfaces;
@@ -163,24 +161,27 @@ var downloadsctxmenu = {
     return menu;
   },
   
+  fillMenuPopup: function(file, popup) {
+    // remove all previous items
+    while (popup.hasChildNodes())
+      popup.removeChild(popup.firstChild);
+    if (!file || !file.exists() || !this._contextMenuLib)
+      return false;
+    // use contextmenu library to get the context menu
+    var cmCtxMenu = this._CMGetContextMenuForFile(file.path);
+    if (cmCtxMenu.isNull() || cmCtxMenu.contents.menu.isNull())
+      return false;
+    // fill popup with the items of the returned CMContextMenu struct
+    this.fillPopupWithIMenu(popup, cmCtxMenu.contents.menu.contents, cmCtxMenu);
+    return true;
+  },
+  
   onContextMenuPopup: function(event) {
     var popup = document.getElementById(this._CMPopupMenuID);
     // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
-      // remove all previous items
-      while (popup.hasChildNodes())
-        popup.removeChild(popup.firstChild);
-      var file = this.getSelectedFile();
-      if (!file || !file.exists())
+      if (!this.fillMenuPopup(this.getSelectedFile(), popup))
         return false;
-      // use contextmenu library to get the context menu
-      var cmCtxMenu = this._CMGetContextMenuForFile(file.path);
-      if (cmCtxMenu.isNull() || cmCtxMenu.contents.menu.isNull())
-        return false;
-      else {
-        // fill popup with the items of the returned CMContextMenu struct
-        this.fillPopupWithIMenu(popup, cmCtxMenu.contents.menu.contents, cmCtxMenu);
-      }
     }
     // we need to stop propagation, because buildContextMenu in downloads.js
     // returns false for any id other than "downloadContextMenu".
@@ -251,8 +252,11 @@ var downloadsctxmenu = {
           // menu item
           var menuitem = document.createElement("menuitem");
           this.setMenuItemAttributes(menuitem, item);
-          menuitem.setAttribute("oncommand",
-            "downloadsctxmenu.onContextMenuItemCommand(event);");
+          //menuitem.setAttribute("oncommand",
+          //  "downloadsctxmenu.onContextMenuItemCommand(event);");
+          menuitem.addEventListener("command",
+              function(e) { downloadsctxmenu.onContextMenuItemCommand(e); },
+              true); // TODO
           popup.appendChild(menuitem);
         }
         else {

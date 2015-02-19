@@ -1,4 +1,5 @@
 support Downloads button in main window?
+better way to expose fillMenuPopup API to other add-ons?
 test in PaleMoon
 show for multiple files
 thunderbird support (downloaded files)
