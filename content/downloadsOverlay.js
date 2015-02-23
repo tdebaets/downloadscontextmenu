@@ -6,12 +6,16 @@ var Ci = Components.interfaces;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 XPCOMUtils.defineLazyModuleGetter(this, "FileUtils",
-                                  "resource://gre/modules/FileUtils.jsm");
+    "resource://gre/modules/FileUtils.jsm");
 
 window.addEventListener("load", function(e) { downloadsctxmenu.onLoad(e); },
-  false);
+    false);
 
 var downloadsctxmenu = {
+  
+  // element ID constants, should be unique!
+  _MENU_ITEM_ID : "downloadscontextmenuitem@bmproductions",
+  _POPUP_MENU_ID : "downloadscontextmenupopup@bmproductions",
                          
   // contextmenu binary ctypes library
   _contextMenuLib: null,
@@ -28,9 +32,6 @@ var downloadsctxmenu = {
   
   _CMDownloadContextMenuID: document.getElementById("downloadContextMenu") ?
       'downloadContextMenu' : 'downloadsContextMenu',
-  // TODO: better way?
-  _CMMenuItemID : "downloadscontextmenuitem@bmproductions", // should be unique!
-  _CMPopupMenuID : "downloadscontextmenupopup@bmproductions", // should be unique!
   
   declareContextMenuStructs: function() {
   
@@ -108,7 +109,7 @@ var downloadsctxmenu = {
     var popup = document.getElementById(this._CMDownloadContextMenuID);
     // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
-      var oldMenu = document.getElementById(this._CMMenuItemID);
+      var oldMenu = document.getElementById(this._MENU_ITEM_ID);
       if (oldMenu) {
         oldMenu.parentNode.removeChild(oldMenu);
       }
@@ -149,10 +150,10 @@ var downloadsctxmenu = {
   createMenu: function(disabled) {
     var menu =
       document.getElementById("downloadscontextmenuItem").cloneNode(true);
-    menu.id = this._CMMenuItemID;
+    menu.id = this._MENU_ITEM_ID;
     menu.setAttribute("disabled", disabled);
     var popup = document.createElement("menupopup");
-    popup.id = this._CMPopupMenuID;
+    popup.id = this._POPUP_MENU_ID;
     popup.setAttribute("onpopupshowing",
       "return downloadsctxmenu.onContextMenuPopup(event);");
     popup.setAttribute("onpopuphiding",
@@ -177,7 +178,7 @@ var downloadsctxmenu = {
   },
   
   onContextMenuPopup: function(event) {
-    var popup = document.getElementById(this._CMPopupMenuID);
+    var popup = document.getElementById(this._POPUP_MENU_ID);
     // without this *simple* guard here, life can be very very frustrating...
     if (event.target == popup) {
       if (!this.fillMenuPopup(this.getSelectedFile(), popup))
@@ -205,7 +206,7 @@ var downloadsctxmenu = {
   onContextMenuHide: function(event) {
     var popup = event.target;
     // only free if the main popup is hidden (this listener also gets called for submenus)
-    if ( (popup.id == this._CMPopupMenuID) && popup.downloadsCtxMenu)
+    if ( (popup.id == this._POPUP_MENU_ID) && popup.downloadsCtxMenu)
     {
       // free the CMContextMenu struct returned by CMGetContextMenuForFile
       this._CMFreeContextMenu(popup.downloadsCtxMenu);
@@ -252,11 +253,9 @@ var downloadsctxmenu = {
           // menu item
           var menuitem = document.createElement("menuitem");
           this.setMenuItemAttributes(menuitem, item);
-          //menuitem.setAttribute("oncommand",
-          //  "downloadsctxmenu.onContextMenuItemCommand(event);");
           menuitem.addEventListener("command",
               function(e) { downloadsctxmenu.onContextMenuItemCommand(e); },
-              true); // TODO
+              false);
           popup.appendChild(menuitem);
         }
         else {
@@ -293,18 +292,14 @@ var downloadsctxmenu = {
       return null;
       
     var filePath = selectedItem.getAttribute("file");
-    if (filePath) {
-      // TODO: newer function?
-      return getLocalFileFromNativePathOrUrl(filePath);
-    }
-    else {
+    if (!filePath) {
       // FF26+, based on onDragStart() in allDownloadsViewOverlay.js
       var metaData = selectedItem._shell.getDownloadMetaData();
       if (!("filePath" in metaData))
         return null;
-       
-      return new FileUtils.File(metaData.filePath);
+      filePath = metaData.filePath
     }
+    return new FileUtils.File(filePath);
   },
   
 };
