@@ -1,4 +1,8 @@
+fix incompatibility with menu icons plus addon
+use addEventListener instead of setAttribute (addon validator)
+improve import calls? (addon validator)
 support Downloads button in main window?
+  http://stackoverflow.com/questions/26299849/in-a-firefox-non-overlay-extension-how-to-add-text-to-a-browser-toolbar-icon
 better way to expose fillMenuPopup API to other add-ons?
 test in PaleMoon
 show for multiple files
