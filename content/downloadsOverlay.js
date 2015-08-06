@@ -296,13 +296,15 @@ var downloadsctxmenu = {
       // FF38+, based on onDragStart() in allDownloadsViewOverlay.js
       filePath = selectedItem._shell.download.target.path;
     }
-    else {
+    
+    if (!filePath) {
       // fallback for FF26-37 
       var metaData = selectedItem._shell.getDownloadMetaData();
       if (!("filePath" in metaData))
         return null;
       filePath = metaData.filePath
     }
+    
     return new FileUtils.File(filePath);
   },
   
