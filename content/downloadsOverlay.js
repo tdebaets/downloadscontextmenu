@@ -293,7 +293,11 @@ var downloadsctxmenu = {
       
     var filePath = selectedItem.getAttribute("file");
     if (!filePath) {
-      // FF26+, based on onDragStart() in allDownloadsViewOverlay.js
+      // FF38+, based on onDragStart() in allDownloadsViewOverlay.js
+      filePath = selectedItem._shell.download.target.path;
+    }
+    else {
+      // fallback for FF26-37 
       var metaData = selectedItem._shell.getDownloadMetaData();
       if (!("filePath" in metaData))
         return null;
