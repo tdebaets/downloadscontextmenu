@@ -1,20 +1,28 @@
 
 #include "contextmenu_win32.h"
 
-#include <strsafe.h>
+#include <locale>
 #include <shlwapi.h>
+#include <strsafe.h>
 
 size_t StringLengthWithoutSpace(LPCTSTR lpString, size_t cchMax)
 {
-    size_t len;
+    size_t      len = 0;
+    size_t      res = 0;
+    std::locale locale; // the global locale
+
     if (!SUCCEEDED(StringCchLength(lpString, cchMax, &len)))
         return 0;
-    size_t res = 0;
-    for (unsigned int i = 0; i <= len; i++)
+
+    for (unsigned int i = 0; i < len; i++)
     {
-        if (!isspace(lpString[i]) && !iscntrl(lpString[i]))
+        // not using the C versions of isspace and iscntrl here because those don't
+        // validate their input and can cause a read access violation on special
+        // characters
+        if (!std::isspace(lpString[i], locale) && !std::iscntrl(lpString[i], locale))
             res++;
     }
+
     return res;
 }
 
